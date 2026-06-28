@@ -1,0 +1,103 @@
+// -*- mode: jsonc -*-
+{
+  // "layer": "top", // Waybar at top layer
+  // "position": "bottom", // Waybar position (top|bottom|left|right)
+  "height": 28, // Waybar height (to be removed for auto height)
+  // "width": 1280, // Waybar width
+  "spacing": 4, // Gaps between modules (4px)
+  // Choose the order of the modules
+  "modules-center": ["clock"],
+  "modules-right": [
+    // "custom/notification",
+    "custom/updates",
+    "tray",
+    //"network",
+    "wireplumber",
+    "custom/notification",
+    "custom/power"
+  ],
+  "network": {
+    "format-ethernet": "{ifname} 󰍹",
+    "format-wifi": "{essid} ({signalStrength}%) ",
+    "format-disconnected": "󰶐",
+    "tooltip-format-ethernet": "{ifname} 󰍹",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+    "on-click": "nm-connection-editor",
+    "tooltip-format-disconnected": "Disconnected",
+    "max-length": 50
+  },
+  "tray": {
+    "icon-size": 16,
+    "spacing": 10
+  },
+  "clock": {
+    "format": "{:%I:%M %p}",
+    "tooltip-format": "<tt>{:L%A %d-%m-%Y}</tt>\n<span alpha='50%'>────────────────────</span>\n<tt>{calendar}</tt>",
+    "calendar": {
+      "format": {
+        "today": "<span color='#CBA6F7'><b><u>{}</u></b></span>"
+      }
+    },
+    "on-click": "merkuro-calendar"
+  },
+  "bluetooth": {
+    "format": "󰂲",
+    "format-on": "{icon}",
+    "format-off": "{icon}",
+    "format-connected": "{icon}",
+    "format-icons": {
+      "on": "󰂯",
+      "off": "󰂲",
+      "connected": "󰂱"
+    },
+    "on-click": "blueman-manager",
+    "tooltip-format-connected": "{controller_alias}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}"
+  },
+  "wireplumber": {
+    // "scroll-step": 1, // %, can be a float
+    "format": "{volume}% {icon} {format_source}",
+    "format-bluetooth": "{volume}% {icon} {format_source}",
+    "format-bluetooth-muted": "Muted 󰝟 {icon} {format_source}",
+    "format-muted": "Muted 󰝟 {format_source}",
+    "format-source": "{volume}% ",
+    "format-source-muted": "Muted ",
+    "format-icons": {
+      "default": ["", "", ""]
+    },
+    "on-click": "pwvucontrol"
+  },
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": true,
+    "tooltip-format": "Menú de Apagado",
+    "on-click": " pkill wlogout; wlogout --protocol layer-shell"
+  },
+  "custom/notification": {
+    "tooltip-format": "Notificaciones",
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "<span foreground='#f38ba8'><sup></sup></span>",
+      "none": "󰍥",
+      "dnd-notification": "󱙍<span foreground='#f38ba8'><sup></sup></span>",
+      "dnd-none": "󱙎",
+      "inhibited-notification": "<span foreground='#f38ba8'><sup></sup></span>",
+      "inhibited-none": "󰍥",
+      "dnd-inhibited-notification": "󱙍<span foreground='#f38ba8'><sup></sup></span>",
+      "dnd-inhibited-none": "󱙎"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
+  "custom/updates": {
+    "format": "{} ",
+    "exec": "~/.config/waybar/scripts/check_updates.sh",
+    "return-type": "json",
+    "interval": 3600,
+    "on-click": "~/.config/waybar/scripts/update_system.sh"
+  }
+}
