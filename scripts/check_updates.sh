@@ -58,12 +58,18 @@ elif command -v apt &> /dev/null; then
 elif command -v pacman &> /dev/null; then
     PACMAN=0
     ICON=${DISTRO_ICON:-""}
-    if command -v fakeroot &> /dev/null; then
-        TEMP_DB="${TMPDIR:-/tmp}/waybar-pacman-db-${UID}/"
+    if command -v checkupdates &> /dev/null; then
+        PACMAN=$(checkupdates 2>/dev/null | wc -l)
+    elif command -v fakeroot &> /dev/null; then
+        TEMP_DB="${TMPDIR:-/tmp}/waybar-pacman-db-${UID}"
+        DBPath="$(pacman-conf DBPath 2>/dev/null)"
+        if [[ -z "$DBPath" ]] || [[ ! -d "$DBPath" ]]; then
+            DBPath="/var/lib/pacman/"
+        fi
+        rm -rf "$TEMP_DB"
         mkdir -p "$TEMP_DB"
-        ln -sf /var/lib/pacman/local "$TEMP_DB" &> /dev/null
-
-        if fakeroot -- pacman -Sy --dbpath "$TEMP_DB" --logfile /dev/null &> /dev/null; then
+        ln -s "${DBPath}/local" "$TEMP_DB" &> /dev/null
+        if fakeroot -- pacman -Sy --disable-sandbox-filesystem --dbpath "$TEMP_DB" --logfile /dev/null &> /dev/null; then
             PACMAN=$(pacman -Qu --dbpath "$TEMP_DB" 2>/dev/null | wc -l)
         fi
     else
@@ -75,10 +81,10 @@ elif command -v pacman &> /dev/null; then
         TOOLTIP_EXTRA+="$ICON Pacman: $PACMAN\n"
     fi
     AUR=0
-    if command -v yay &> /dev/null; then
-        AUR=$(yay -Qua 2>/dev/null | wc -l)
-    elif command -v paru &> /dev/null; then
+    if command -v paru &> /dev/null; then
         AUR=$(paru -Qua 2>/dev/null | wc -l)
+    elif command -v yay &> /dev/null; then
+        AUR=$(yay -Qua 2>/dev/null | wc -l)
     elif command -v pikaur &> /dev/null; then
         AUR=$(pikaur -Qua 2>/dev/null | wc -l)
     fi

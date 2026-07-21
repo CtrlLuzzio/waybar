@@ -47,6 +47,7 @@ window#waybar{
 #wireplumber,
 #custom-power,
 #custom-notification,
+#custom-weather,
 #custom-updates {
     padding: 0 0.3rem;
     margin: 0 0.2rem;
@@ -64,6 +65,7 @@ window#waybar{
 #wireplumber:hover,
 #custom-power:hover,
 #custom-notification:hover,
+#custom-weather:hover,
 #custom-updates:hover {
     padding: 0 0.3rem;
     margin: 0 0.2rem;

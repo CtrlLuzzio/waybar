@@ -8,24 +8,13 @@
   // Choose the order of the modules
   "modules-center": ["clock"],
   "modules-right": [
-    // "custom/notification",
     "custom/updates",
+    "custom/weather",
     "tray",
-    //"network",
     "wireplumber",
     "custom/notification",
     "custom/power"
   ],
-  "network": {
-    "format-ethernet": "{ifname} 󰍹",
-    "format-wifi": "{essid} ({signalStrength}%) ",
-    "format-disconnected": "󰶐",
-    "tooltip-format-ethernet": "{ifname} 󰍹",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
-    "on-click": "nm-connection-editor",
-    "tooltip-format-disconnected": "Disconnected",
-    "max-length": 50
-  },
   "tray": {
     "icon-size": 16,
     "spacing": 10
@@ -99,5 +88,11 @@
     "return-type": "json",
     "interval": 3600,
     "on-click": "~/.config/waybar/scripts/update_system.sh"
+  },
+  "custom/weather": {
+    "format": "{}",
+    "exec": "~/.config/waybar/scripts/weather.sh",
+    "return-type": "json",
+    "interval": 900,
   }
 }

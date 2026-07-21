@@ -54,10 +54,10 @@ elif command -v dnf &> /dev/null; then
 elif command -v apt &> /dev/null; then
     UPDATE_COMMAND="sudo apt update && sudo apt upgrade"
 elif command -v pacman &> /dev/null; then
-    if command -v yay &> /dev/null; then
-        UPDATE_COMMAND="yay -Syu"
-    elif command -v paru &> /dev/null; then
+    if command -v paru &> /dev/null; then
         UPDATE_COMMAND="paru -Syu"
+    elif command -v yay &> /dev/null; then
+        UPDATE_COMMAND="yay -Syu"
     elif command -v pikaur &> /dev/null; then
         UPDATE_COMMAND="pikaur -Syu"
     else
